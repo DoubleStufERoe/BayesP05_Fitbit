@@ -22,6 +22,8 @@ def get_activities_data():
         df[col] = df[col].str.replace(',','').astype(int)
     df['mins_tot'] = df.mins_sed + df.mins_light + df.mins_mod + df.mins_heavy
     df['mins_off'] = 1440 - df.mins_tot
+    df['weekday'] = df.index.strftime('%w-%a')
+
 
     return df
 
