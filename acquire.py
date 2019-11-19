@@ -17,7 +17,7 @@ from os import path
 ### local imports                                                           ###
 ###############################################################################
 
-from env import host, user, password
+#from env import host, user, password
 from debug import local_settings, timeifdebug, timeargsifdebug, frame_splain
 
 
@@ -26,13 +26,13 @@ from debug import local_settings, timeifdebug, timeargsifdebug, frame_splain
 ### get db url                                                              ###
 ###############################################################################
 
-@timeifdebug  # <--- DO NOT RUN ARGS DEBUG HERE! Will pass password info.
-def get_db_url(user=user, password=password, host=host, database='employees'):
-    '''
-    get_db_url(user=user, password=password, host=host, database='zillow')
-    RETURNS login url for selected mysql database
-    '''
-    return f'mysql+pymysql://{user}:{password}@{host}/{database}'
+# @timeifdebug  # <--- DO NOT RUN ARGS DEBUG HERE! Will pass password info.
+# def get_db_url(user=user, password=password, host=host, database='employees'):
+#     '''
+#     get_db_url(user=user, password=password, host=host, database='zillow')
+#     RETURNS login url for selected mysql database
+#     '''
+#     return f'mysql+pymysql://{user}:{password}@{host}/{database}'
 
 
 ###############################################################################
