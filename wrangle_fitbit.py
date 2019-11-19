@@ -2,6 +2,26 @@ from debug import local_settings, timeifdebug, timeargsifdebug, frame_splain
 import pandas as pd
 from datetime import timedelta, datetime
 
+
+def acquire_fitbit_daily():
+    rows = []
+    file_list = []
+    for (dirpath,dirnames,filenames) in walk('fitbit'):
+        file_list.extend(filenames)
+    
+    for i in file_list:
+        filename = 'fitbit/' + i
+    
+        with open(filename) as f:
+            cr = csv.reader(f)
+            for row in cr:
+                if len(row)> 8:
+                    rows.append(row)
+    
+    df = pd.DataFrame(rows[1:],columns=rows[0])
+    df = df[df.Date != 'Date']
+    return df
+
 def get_activities_data():
     df = pd.read_csv('activities.csv')
     df = df.rename(columns={
