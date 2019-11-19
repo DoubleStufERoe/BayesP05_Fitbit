@@ -101,9 +101,11 @@ def frame_splain(
         print(title.upper(), 'DESCRIPTION:')
         print(df.describe().transpose())
         print()
+        print(title.upper(), 'HEAD:')
         if cols <= maxcols:
-            print(title.upper(), 'HEAD:')
             print(df.head(max_x))
+        else:
+            print(df.head().T)
             print()
 
 
