@@ -25,7 +25,7 @@ def acquire_fitbit_daily(directory='fitbit', splain=False):
     df = df[df.Date != 'Date']
     df.Date = pd.to_datetime(df.Date, format='%Y-%m-%d')
     df = df.sort_values(by='Date')
-    df = df.rename(columns={'Date': 'date'}
+    df = df.rename(columns={'Date': 'date'})
     df = df.set_index('date')
     
     return check_df(df, splain=splain)
