@@ -23,7 +23,10 @@ def acquire_fitbit_daily(directory='fitbit', splain=False):
     
     df = pd.DataFrame(rows[1:],columns=rows[0])
     df = df[df.Date != 'Date']
-    df.Date=pd.to_datetime(df.Date, format='%Y-%m-%d')
+    df.Date = pd.to_datetime(df.Date, format='%Y-%m-%d')
+    df = df.sort_values(by='Date')
+    df = df.rename(columns={'Date': 'date'}
+    df = df.set_index('date')
     
     return check_df(df, splain=splain)
 
@@ -43,7 +46,6 @@ def get_activities_data(directory='fitbit', splain=local_settings.splain):
         'Activity Calories': 'activity_cals',
     })
     #df.date=pd.to_datetime(df.date, format='%Y-%m-%d')
-    df = df.set_index('date')
     for col in df.columns[df.dtypes == 'object']:
         df[col] = df[col].str.replace(',','').astype('float')
     df['mins_tot'] = df.mins_sed + df.mins_light + df.mins_mod + df.mins_heavy
