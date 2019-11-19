@@ -17,6 +17,7 @@ def get_activities_data():
         'Activity Calories': 'activity_cals',
     })
     df.date=pd.to_datetime(df.date, format='%m/%d/%y')
+    df = df.set_index('date')
     for col in df.columns[df.dtypes == 'object']:
         df[col] = df[col].str.replace(',','').astype(int)
     df['mins_tot'] = df.mins_sed + df.mins_light + df.mins_mod + df.mins_heavy
