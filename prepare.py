@@ -582,3 +582,10 @@ def Sams_other_function(tbd=True):
     plt.legend(handles=[blue_patch, orange_patch])
     plt.annotate(s=f'RMSE: {rmse}', xy=(72,1))
     plt.show()
+
+
+
+def split_store_data(df, train_prop=.66): 
+    train_size = int(len(df) * train_prop)
+    train, test = df[0:train_size], df[train_size:len(df)]
+    return train, test
