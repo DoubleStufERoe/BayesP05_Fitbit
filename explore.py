@@ -325,3 +325,23 @@ def bool_ttest_single_uniq(df, target_column='target', check_column='check', alp
 
 if __name__ == '__main__':
     print('running from main')
+
+
+def activity_stack(df):
+    # Make data
+    cols = ['mins_heavy','mins_mod','mins_light','mins_idle']
+    pal = ['#a8122c','#e5c100','#668466','#ffffff']
+    data = df[cols].resample('W').mean()
+
+    # We need to transform the data from raw data to percentage (fraction)
+    data_perc = data.divide(data.sum(axis=1), axis=0)
+
+    # Make the plot
+    plt.stackplot(data.index, data_perc['mins_heavy'], data_perc['mins_mod'], data_perc['mins_light'], data_perc['mins_idle'], labels=cols,colors=pal)
+    # plt.stackplot(data)
+    plt.legend(loc='upper left')
+    plt.margins(0,0)
+    axes=plt.gca()
+    axes.set_ylim([0,0.25])
+    plt.title('Stacked area chart - capped at 25%')
+    plt.show()
