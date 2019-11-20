@@ -61,3 +61,17 @@ def get_activities_data(directory='fitbit', splain=local_settings.splain):
 
 if __name__ == '__main__':
     get_activities_data(splain=True)
+
+
+
+def predict_missing(df):
+    df_early = df[(df.steps > 0) & (df.index < '2018-07-07')]
+    df_missing = df[df.steps == 0]
+    df_early.drop(columns='week_day',inplace=True)
+    df_missing.drop(columns='week_day',inplace=True)
+
+    for col in df_missing.columns:
+        df_mean = df_early
+
+        df_missing[col]= round(df_mean[col].mean())
+    export_csv = df_missing.to_csv(r'missing_data_predicted.csv',header=True)
