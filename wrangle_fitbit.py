@@ -53,7 +53,8 @@ def get_activities_data(directory='fitbit', splain=local_settings.splain):
     df['week_day'] = df.index.strftime('%w-%a')
     df['cals_idle'] = df.cals_burned - df.activity_cals
     df['mins_idle'] = df.mins_sed + df.mins_off
-    df['idle_cals_per_min'] = df.cals_idle/(df.mins_sed+df.mins_off)
+    df['idle_cals_per_min'] = df.cals_idle/(df.mins_idle)
+    df['daily_rest_cals'] = df.idle_cals_per_min * 1440
 
     return check_df(df, splain=splain)
 
