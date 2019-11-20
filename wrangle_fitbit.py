@@ -72,11 +72,11 @@ def predict_missing(df):
     return df_missing
     
     
-def merge_imputed(df, df_mask, imputed_df, agg_fn=mean):
+def merge_imputed(df, df_mask, imputed_df, agg_fn='mean'):
     for col in imputed_df.cols:
-        df[col] = np.where(df_mask, df_missing[col].agg_fn(), df[col])
+        df[col] = np.where(df_mask, df_missing[col].agg(agg_fn), df[col])
     return df
-
+ 
 
 
 if __name__ == '__main__':
