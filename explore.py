@@ -34,6 +34,37 @@ from debug import local_settings, timeifdebug, timeargsifdebug, frame_splain
 from dfo import DFO
 
 
+###############################################################################
+### plotting functions                                                      ###
+###############################################################################
+
+def df_limit_numerics(df):
+    new_df = df[list(df.columns[(df.dtypes == 'int64') | (df.dtypes == 'float64') | (df.dtypes == 'bool')])]
+    return new_df
+
+
+def all_line_plots(df):
+    for col in df_limit_numerics(df).columns:
+        plt.figure(figsize=(7,5))
+        df[col].plot()
+        plt.ylabel(col)
+        plt.show()
+
+
+def all_box_plots(df, x_col='week_day'):
+    new_df = df.copy()
+    new_df = new_df.sort_values(by=x_col)
+    for col in df_limit_numerics(df).columns:
+        
+        plt.figure(figsize=(7,5))
+        sns.boxplot(data=new_df,x=x_col,y=col,showmeans=True)
+
+        plt.hlines(df[col].mean(),0,6, color='limegreen')
+        plt
+        plt.ylabel(col)
+        plt.show()
+
+
 @timeifdebug
 def plot_variable_pairs(dataframe, **kwargs):
     '''
@@ -288,3 +319,9 @@ def bool_ttest_single_uniq(df, target_column='target', check_column='check', alp
 
 #     df_p2 = pd.DataFrame(p_list, columns=['column','t_stat','p_value','is_sig', col_name + '_if_true', col_name + '_if_not']).set_index('column').sort_values(by='p_value')
 #     return df_p2
+
+
+
+
+if __name__ == '__main__':
+    print('running from main')

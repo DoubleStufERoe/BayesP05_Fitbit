@@ -32,7 +32,7 @@ def acquire_fitbit_daily(directory='fitbit', splain=False):
 
 
 def get_activities_data(directory='fitbit', splain=local_settings.splain):
-    df=acquire_fitbit_daily(directory=directory)
+    df = acquire_fitbit_daily(directory=directory)
     df = df.rename(columns={
         'Date': 'date',
         'Calories Burned': 'cals_burned',
@@ -59,11 +59,6 @@ def get_activities_data(directory='fitbit', splain=local_settings.splain):
     return check_df(df, splain=splain)
 
 
-if __name__ == '__main__':
-    get_activities_data(splain=True)
-
-
-
 def predict_missing(df):
     df_early = df[(df.steps > 0) & (df.index < '2018-07-07')]
     df_missing = df[df.steps == 0]
@@ -71,7 +66,19 @@ def predict_missing(df):
     df_missing.drop(columns='week_day',inplace=True)
 
     for col in df_missing.columns:
-        df_mean = df_early
+        df_missing[col]= round(df_early[col].mean())
 
-        df_missing[col]= round(df_mean[col].mean())
     export_csv = df_missing.to_csv(r'missing_data_predicted.csv',header=True)
+    return df_missing
+    
+    
+def merge_imputed(df, df_mask, imputed_df, agg_fn=mean):
+    for col in imputed_df.cols:
+        df[col] = np.where(df_mask, df_missing[col].agg_fn(), df[col])
+    return df
+
+
+
+if __name__ == '__main__':
+    get_activities_data(splain=True)
+
