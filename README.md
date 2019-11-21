@@ -1,5 +1,41 @@
-##README Time Series Fitbit Project
+## README Time Series Fitbit Project
 
+This project was implemented to predict future activity and caloric data based on currently available data and to fill in two weeks worth of missing data in the logs.
+
+Partners: Kevin Eliasen and Jeffery Roeder
+
+
+### Hypothesis 
+
+This person was inactive until July and then started some sort of exercise program.
+
+This person was a 27yo male, 5'10, 189lbs
+
+#### Methods used:
+
+- Applied statistics
+- Time Series analysis
+- Data visualization
+
+Technologies used:
+
+- Python
+- Jupyter Notebook
+- Pandas
+- Matplotlib
+
+
+### Project needs:
+The code was written in Python 3.7.3 and you will need to have pandas, numpy, matplotlib, seaborn, and sklearn installed. Additionally you will need to have the csv files for this specific person.
+
+#### Files from repo:
+
+- acquire.py
+- prepare.py
+- explore.py
+- wrangle_fitbit.py
+- model.py
+- model_final.ipynb
 
 #### Data Dictionary
 

@@ -89,3 +89,19 @@ def one_week_rmse(train):
     score_train = train[train.last_week_cals >0]
     rms_prior_week = sqrt(metrics.mean_squared_error(score_train.cals_burned,score_train.last_week_cals))
     print("The RMSE using a one week shift for calories burned: ", round(rms_prior_week,5))
+
+def active_rmse(train):
+    train['avg_cals_burned'] = train.cals_burned.mean()
+    train['last_week_cals'] = train.cals_burned.shift(7)
+    score_train = train[train.last_week_cals >0]
+    score_train.head()
+    rms_mean = sqrt(metrics.mean_squared_error(score_train.cals_burned,score_train.avg_cals_burned))
+    print("The RMSE using the median calories post July 7th: ", rms_mean)
+
+def inactive_rmse(train):
+    train['avg_cals_burned'] = train.cals_burned.mean()
+    train['last_week_cals'] = train.cals_burned.shift(7)
+    score_train = train[train.last_week_cals >0]
+    score_train.head()
+    rms_mean = sqrt(metrics.mean_squared_error(score_train.cals_burned,score_train.avg_cals_burned))
+    print("The RMSE using the median calories pre July 7th: ", rms_mean)

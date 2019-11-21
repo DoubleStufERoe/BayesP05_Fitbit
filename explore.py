@@ -360,3 +360,19 @@ def post_july(df):
     df_late = df_late[['cals_burned','dist','mins_heavy']]
     print('\033[1m' + title + '\033[0m')
     return df_late.describe().loc[['mean']]
+
+#boxplots by pre and post July 7th
+
+def all_box_plots_pre_post(df, x_col='pre_post'):
+    df['pre_post'] = np.where(df.index > '2018-07-07',"post",'pre')
+    new_df = df.copy()
+    new_df = new_df.sort_values(by=x_col,ascending=False)
+    for col in df_limit_numerics(df).columns:
+        
+        plt.figure(figsize=(7,3))
+        sns.boxplot(data=new_df,x=x_col,y=col,showmeans=True)
+
+        plt.hlines(df[col].mean(),0,2, color='limegreen')
+        plt
+        plt.ylabel(col)
+        plt.show()
