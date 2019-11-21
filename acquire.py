@@ -23,21 +23,33 @@ from debug import local_settings, timeifdebug, timeargsifdebug, frame_splain
 
 
 ###############################################################################
-### get db url                                                              ###
+### acquire csv files for Fitbit                                            ###
 ###############################################################################
 
-# @timeifdebug  # <--- DO NOT RUN ARGS DEBUG HERE! Will pass password info.
-# def get_db_url(user=user, password=password, host=host, database='employees'):
-#     '''
-#     get_db_url(user=user, password=password, host=host, database='zillow')
-#     RETURNS login url for selected mysql database
-#     '''
-#     return f'mysql+pymysql://{user}:{password}@{host}/{database}'
+def acquire_fitbit_daily(directory='fitbit', splain=False):
+    rows = []
+    file_list = []
+    for (dirpath,dirnames,filenames) in walk(directory):
+        file_list.extend(filenames)
+    
+    for i in file_list:
+        filename = directory + '/' + i
+    
+        with open(filename) as f:
+            cr = csv.reader(f)
+            for row in cr:
+                if len(row)> 8:
+                    rows.append(row)
+    
+    df = pd.DataFrame(rows[1:],columns=rows[0])
+    df = df[df.Date != 'Date']
+    df.Date = pd.to_datetime(df.Date, format='%Y-%m-%d')
+    df = df.sort_values(by='Date')
+    df = df.rename(columns={'Date': 'date'})
+    
+    return check_df(df, splain=splain)
 
 
-###############################################################################
-### classification functions                                                ###
-###############################################################################
 
 @timeifdebug
 def paste_df(splain=local_settings.splain, **kwargs):
