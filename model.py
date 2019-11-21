@@ -15,6 +15,8 @@ import seaborn as sns
 # ignore warnings
 import warnings
 warnings.filterwarnings("ignore")
+from math import sqrt
+from sklearn import metrics
 
 
 ###############################################################################
@@ -71,4 +73,19 @@ from dfo import DFO
 ###############################################################################
 # Which performs better on your in-sample data?
 
+# Shows RMSE for baseline model using mean of calories burned
 
+def baseline_rmse(train):
+    train['avg_cals_burned'] = train.cals_burned.mean()
+    train['last_week_cals'] = train.cals_burned.shift(7)
+    score_train = train[train.last_week_cals >0]
+    score_train.head()
+    rms_mean = sqrt(metrics.mean_squared_error(score_train.cals_burned,score_train.avg_cals_burned))
+    print("The RMSE using the median calories burned: ", rms_mean)
+
+    # RMSE for a predictive model using the prior week calories burned + the delta
+
+def one_week_rmse(train):
+    score_train = train[train.last_week_cals >0]
+    rms_prior_week = sqrt(metrics.mean_squared_error(score_train.cals_burned,score_train.last_week_cals))
+    print("The RMSE using a one week shift for calories burned: ", round(rms_prior_week,5))

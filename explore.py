@@ -343,5 +343,20 @@ def activity_stack(df):
     plt.margins(0,0)
     axes=plt.gca()
     axes.set_ylim([0,0.25])
-    plt.title('Stacked area chart - capped at 25%')
+    plt.title('Time spent by activity intensity (first 25% shown)')
     plt.show()
+
+
+def pre_july(df):
+    title = "Pre 7/7 Averages"
+    df_early = df[df.index < '2018-07-07']
+    df_early = df_early[['cals_burned','dist','mins_heavy']]
+    print('\033[1m' + title + '\033[0m')
+    return df_early.describe().loc[['mean']]
+
+def post_july(df):
+    title = "Post 7/7 Averages"
+    df_late = df[df.index > '2018-07-07']
+    df_late = df_late[['cals_burned','dist','mins_heavy']]
+    print('\033[1m' + title + '\033[0m')
+    return df_late.describe().loc[['mean']]
